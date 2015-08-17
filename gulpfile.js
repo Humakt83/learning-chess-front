@@ -10,12 +10,14 @@ var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');
 var browserSync = require('browser-sync');
 var uglify = require('gulp-uglify');
+var reactify = require('reactify');
 
 var DIST_DIR = './dist/'
 // add custom browserify options here
 var customOpts = {
-  entries: ['./app/ngchess.js'],
+  entries: ['./app/chess.js'],
   extensions: ['.js'],
+  transform: [reactify],
   paths: ['./node_modules','./app/js'],
   debug: true
 };
