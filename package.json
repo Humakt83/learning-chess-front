@@ -1,0 +1,31 @@
+{
+  "name": "learning-chess-front",
+  "version": "1.0.0",
+  "description": "Learning chess front",
+  "main": "app/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chess",
+    "learning",
+    "reactjs"
+  ],
+  "author": "Risto <Humakt83> (http://ukkosnetti.fi)",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.8.2",
+    "browserify": "^11.0.1",
+    "gulp": "^3.9.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.6",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.3.1"
+  }
+}
