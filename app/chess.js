@@ -1,7 +1,7 @@
 'use strict'
 
-var React = require('react')
-var SettingsComponent = require('settingscomponent')
+import React from 'react'
+import SettingsComponent from './js/settingscomponent'
 
 React.render(
   <SettingsComponent />,

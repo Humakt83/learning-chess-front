@@ -10,14 +10,14 @@ var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');
 var browserSync = require('browser-sync');
 var uglify = require('gulp-uglify');
-var reactify = require('reactify');
+var babelify = require('babelify');
 
 var DIST_DIR = './dist/'
-// add custom browserify options here
+
 var customOpts = {
   entries: ['./app/chess.js'],
   extensions: ['.js'],
-  transform: [reactify],
+  transform: [babelify],
   paths: ['./node_modules','./app/js'],
   debug: true
 };
@@ -35,7 +35,7 @@ gulp.task('copyFiles', function() {
 	.pipe(gulp.dest(DIST_DIR));
 })
 
-gulp.task('default', ['copyFiles'], bundle); // so you can run `gulp js` to build the file
+gulp.task('default', ['copyFiles'], bundle);
 gulp.task('serve', ['default'], function() {
 	browserSync({
 		server: {

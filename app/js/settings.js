@@ -1,14 +1,16 @@
 'use strict'
 
-var Settings = function() {
+class Settings {
 	
-	var whiteIsComputer = false
-	var blackIsComputer = true
-	
-	return {
-		isWhiteComputer : function() { return whiteIsComputer },
-		isBlackComputer : function() { return blackIsComputer },
-		setWhiteIsComputer : function(computer) { whiteIsComputer = computer },
-		setBlackIsComputer : function(computer) { blackIsComputer = computer }
+	constructor() {
+		this.whiteIsComputer = false
+		this.blackIsComputer = true
 	}
+	
+	isWhiteComputer() { return this.whiteIsComputer }
+	isBlackComputer() { return this.blackIsComputer }
+	setWhiteIsComputer(computer) { this.whiteIsComputer = computer }
+	setBlackIsComputer(computer) { this.blackIsComputer = computer }
 }
+
+module.exports = new Settings()
