@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Settings from './settings'
+import ChessComponent from './chesscomponent'
 
 class SettingsComponent extends React.Component {
 	
@@ -10,7 +11,7 @@ class SettingsComponent extends React.Component {
 	}
 	
 	_start() {
-		console.log('Starting')
+		this.setState({started: true})
 	}
 	
 	_togglePlayer(white) {
@@ -25,6 +26,7 @@ class SettingsComponent extends React.Component {
 	render() {
 		let blackPlayer = Settings.isBlackComputer() ? 'computer.png' : 'human.png'
 		let whitePlayer = Settings.isWhiteComputer() ? 'computer.png' : 'human.png'
+		if (this.state && this.state.started) return <ChessComponent />
 		return (
 			<div>
 				<div className="settings left">
@@ -34,7 +36,7 @@ class SettingsComponent extends React.Component {
 				</div>
 	
 				<div className="settings-center">
-					<img className="start touchable" src="start.png" onClick={this._start}/>
+					<img className="start touchable" src="start.png" onClick={this._start.bind(this)}/>
 				</div>
 	
 				<div className="settings right">

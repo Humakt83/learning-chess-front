@@ -1,18 +1,15 @@
 'use strict'
 
-angular.module('ng-chess').factory('PositionService', [function() {
-
-	function Position(x, y) {
-		this.newPosition = function(xModifier, yModifier) {
-			return new Position(this.x + xModifier, this.y + yModifier)
-		}
-		this.x = x
+class Position {
+	
+	constructor(x, y) {
+		this.x = y
 		this.y = y
 	}
 	
-	return {
-		createPosition : function(x, y) {
-			return new Position(x, y)
-		}
+	newPosition(xModifier, yModifier) {
+		return new Position(this.x + xModifier, this.y + yModifier)
 	}
-}])
+}
+
+module.exports = Position
