@@ -1,16 +1,16 @@
 body {
-    background-color: rgb(248, 196, 154);
-	background: -webkit-linear-gradient(left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(248, 196, 154));
-    background: -o-linear-gradient(left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(248, 196, 154));
-    background: -moz-linear-gradient(left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(248, 196, 154));
-    background: linear-gradient(to left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(248, 196, 154));
+    background-color: rgb(208, 196, 254);
+	background: -webkit-linear-gradient(left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(208, 196, 254));
+    background: -o-linear-gradient(left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(208, 196, 254));
+    background: -moz-linear-gradient(left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(208, 196, 254));
+    background: linear-gradient(to left, rgb(255, 255, 255), rgb(255, 255, 255), rgb(255, 255, 255), rgb(208, 196, 254));
 }
 
 .chess {
 	position: relative;
 	border: 5px solid;
     border-radius: 12px; 
-	border-color: rgb(168, 116,74);
+	border-color: rgb(168, 116,174);
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
@@ -19,32 +19,32 @@ body {
 
 .bg-white {
 	background-color: white;
-	background: -webkit-linear-gradient(right, rgb(255, 255, 255), rgb(225, 225, 225), rgb(255, 255, 255));
-    background: -o-linear-gradient(right, rgb(255, 255, 255), rgb(225, 225, 225), rgb(255, 255, 255));
-    background: -moz-linear-gradient(right, rgb(255, 255, 255), rgb(225, 225, 225), rgb(255, 255, 255));
-    background: linear-gradient(to right, rgb(255, 255, 255), rgb(225, 225, 225), rgb(255, 255, 255));
+	background: -webkit-linear-gradient(right, rgb(255, 255, 255), rgb(225, 225, 255), rgb(255, 255, 255));
+    background: -o-linear-gradient(right, rgb(255, 255, 255), rgb(225, 225, 255), rgb(255, 255, 255));
+    background: -moz-linear-gradient(right, rgb(255, 255, 255), rgb(225, 225, 255), rgb(255, 255, 255));
+    background: linear-gradient(to right, rgb(255, 255, 255), rgb(225, 225, 255), rgb(255, 255, 255));
 }
 
 .bg-black {
 	background-color: black;
-	background: -webkit-linear-gradient(right, rgb(0, 0, 0), rgb(15, 15, 15), rgb(0, 0, 0));
-    background: -o-linear-gradient(right, rgb(0, 0, 0), rgb(15, 15, 15), rgb(0, 0, 0));
-    background: -moz-linear-gradient(right, rgb(0, 0, 0), rgb(15, 15, 15), rgb(0, 0, 0));
-    background: linear-gradient(to right, rgb(0, 0, 0), rgb(15, 15, 15), rgb(0, 0, 0));
+	background: -webkit-linear-gradient(right, rgb(0, 0, 100), rgb(15, 15, 115), rgb(0, 0, 100));
+    background: -o-linear-gradient(right, rgb(0, 0, 100), rgb(15, 15, 115), rgb(0, 0, 100));
+    background: -moz-linear-gradient(right, rgb(0, 0, 100), rgb(15, 15, 115), rgb(0, 0, 100));
+    background: linear-gradient(to right, rgb(0, 0, 100), rgb(15, 15, 115), rgb(0, 0, 100));
 }
 
 .selectable {
 	background-color: yellow;
-	background: -webkit-linear-gradient(right, rgb(255, 255, 0), rgb(245, 215, 0), rgb(255, 255, 0));
-    background: -o-linear-gradient(right, rgb(255, 255, 0), rgb(245, 215, 0), rgb(255, 255, 0));
-    background: -moz-linear-gradient(right, rgb(255, 255, 0), rgb(245, 215, 0), rgb(255, 255, 0));
-    background: linear-gradient(to right, rgb(255, 255, 0), rgb(245, 215, 0), rgb(255, 255, 0));
+	background: -webkit-linear-gradient(right, rgb(255, 255, 100), rgb(245, 215, 100), rgb(255, 255, 100));
+    background: -o-linear-gradient(right, rgb(255, 255, 100), rgb(245, 215, 100), rgb(255, 255, 100));
+    background: -moz-linear-gradient(right, rgb(255, 255, 100), rgb(245, 215, 100), rgb(255, 255, 100));
+    background: linear-gradient(to right, rgb(255, 255, 100), rgb(245, 215, 100), rgb(255, 255, 100));
 	cursor: pointer;
 }
 
 .settings {
 	border-radius: 12px;
-	border-color: rgb(168, 116,74);
+	border-color: rgb(168, 116, 174);
 	border: 5px solid;
 	float: left;
 }
@@ -144,34 +144,4 @@ img {
 
 .wait {
 	cursor: wait;
-}
-
-.personalities {
-	padding: 3px;
-}
-
-.personality {
-	display: inline-block;
-	-webkit-filter: sepia(100%);
-	-moz-filter: sepia(100%);
-	-o-filter: sepia(100%);
-	filter: sepia(100%);
-	border-radius: 3px;
-	border-color: rgb(168, 116,74);
-	border: 3px solid;
-	width: 15%;
-	padding: 1px;
-	cursor: pointer;
-}
-
-.personality-selected { 
-	-webkit-filter: sepia(0%);
-	-moz-filter: sepia(0%);
-	-o-filter: sepia(0%);
-	filter: sepia(0%);
-	-webkit-transition: 1s -webkit-filter linear;
-	-moz-transition: 1s -moz-filter linear;
-	-o-transition: 1s -o-filter linear;
-	transition: 1s filter linear;
-	transition: 1s -webkit-filter linear;
 }
