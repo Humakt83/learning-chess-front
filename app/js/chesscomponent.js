@@ -6,6 +6,7 @@ import Settings from './settings'
 import Chess from './chess'
 import Piece from './pieces'
 import Position from './position'
+import SettingsComponent from './settingscomponent'
 
 class ChessComponent extends React.Component {
 	
@@ -44,13 +45,11 @@ class ChessComponent extends React.Component {
 	}*/
 	
 	checkState() {
-		this.gameOver = this.chess.isGameOver()
-		if (this.gameOver) {
-			gameOver()
-		}
+		if (this.chess.isGameOver()) this.gameIsOver()
 	}
 	
-	gameOver() {
+	gameIsOver() {
+		this.gameOver = true
 		if (this.chess.isStaleMate()) {
 			this.chessOverText = 'Stalemate'
 		} else {
@@ -70,20 +69,20 @@ class ChessComponent extends React.Component {
 		$scope.aiTurn()
 	}*/
 	
-	/*$scope.restart = function() {
-		$scope.gameOver = undefined
-		$scope.chessBoard = Chess.createBoard()
-		if ($scope.aiWhite) {
-			$scope.aiTurn()
-		}
-	}*/
+	restart() {
+		this.chess = new Chess()
+		this.gameOver = false
+		this.setState({})
+	}
 	
-	/*$scope.toSettings = function() {
-		$location.path("settings")
-	}*/
+	toSettings() {
+		//since we are not implementing routing for simple two view application, might as well just reload the window"
+		window.location.reload()
+	}
 	
 	render() {
 		let that = this
+		let displayEnd = this.gameOver ? 'block' : 'none'
 		return (
 			<div className="container">
 				<table className="chess">
@@ -107,16 +106,16 @@ class ChessComponent extends React.Component {
 						)
 					})}
 				</table>
-		
-				{/*<div class="end" ng-if="gameOver">
-					<div class="end-inner">
-						<p>{{chessOverText}}</p>
+				
+				<div className="end" style={{display: displayEnd}}>
+					<div className="end-inner">
+						<p>{this.chessOverText}</p>
 						<div>
-							<img class="restart" src="start.png" ng-click="restart()"/>
-							<img class="settings-image" src="settings.png" ng-click="toSettings()"/>
+							<img className="restart" src="start.png" onClick={this.restart.bind(this)}/>
+							<img className="settings-image" src="settings.png" onClick={this.toSettings.bind(this)}/>
 						</div>
 					</div>
-				</div>*/}
+				</div>
 			</div>
 		)
 	}
