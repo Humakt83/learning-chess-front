@@ -1,34 +1,34 @@
 'use strict'
 
 import React from 'react'
+import ClassNames from 'classnames'
 import Settings from './settings'
 import Chess from './chess'
 import Piece from './pieces'
+import Position from './position'
 
 class ChessComponent extends React.Component {
 	
 	constructor(props) {
 		super(props)
 		this.chess = new Chess()
+		this.gameOver = false
 	}
 		
-	/*$scope.selectPiece = function(x, y) {
-		if (!$scope.gameOver) {
-			if (!$scope.chessBoard.selected || $scope.chessBoard.canSetSelected(x, y)) {
-				$scope.chessBoard.setSelected(x, y)
-			} else if ($scope.chessBoard.isMovable(x, y)) {
-				$scope.chessBoard.movePiece($scope.chessBoard.selected, PositionService.createPosition(x, y))
-				$scope.checkState()
-				if (!$scope.gameOver && ($scope.aiBlack || $scope.aiWhite)) {
+	selectPiece(x, y) {
+		if (!this.gameOver) {
+			if (!this.chess.selected || this.chess.canSetSelected(x, y)) {
+				this.chess.setSelected(x, y)
+			} else if (this.chess.isMovable(x, y)) {
+				this.chess.movePiece(this.chess.selected, new Position(x, y))
+				this.checkState()				
+				/*if (!$scope.gameOver && ($scope.aiBlack || $scope.aiWhite)) {
 					$scope.aiTurn()
-				}
+				}*/
 			}
+			this.setState({})
 		}
 	}
-	
-	$scope.piece = ChessPiece
-	
-	$scope.position = PositionService*/
 		
 	/*$scope.aiTurn = function() {
 		$timeout(function() {
@@ -43,22 +43,20 @@ class ChessComponent extends React.Component {
 		})
 	}*/
 	
-	/*$scope.checkState = function() {
-		$scope.blackPieces = $scope.chessBoard.getBlackPieces()
-		$scope.whitePieces = $scope.chessBoard.getWhitePieces()
-		$scope.gameOver = $scope.chessBoard.isGameOver()
-		if ($scope.gameOver) {
+	checkState() {
+		this.gameOver = this.chess.isGameOver()
+		if (this.gameOver) {
 			gameOver()
 		}
-	}*/
+	}
 	
-	/*var gameOver = function() {
-		if ($scope.chessBoard.isStaleMate()) {
-			$scope.chessOverText = 'Stalemate'
+	gameOver() {
+		if (this.chess.isStaleMate()) {
+			this.chessOverText = 'Stalemate'
 		} else {
-			$scope.chessOverText = 'Checkmate.'
+			this.chessOverText = 'Checkmate.'
 		}
-	}*/
+	}
 	
 	/*$scope.aiOnBlack = Settings.isBlackComputer()
 	$scope.aiOnWhite = Settings.isWhiteComputer()
@@ -85,6 +83,7 @@ class ChessComponent extends React.Component {
 	}*/
 	
 	render() {
+		let that = this
 		return (
 			<div className="container">
 				<table className="chess">
@@ -92,9 +91,14 @@ class ChessComponent extends React.Component {
 						return (
 							<tr key={i}>
 								{row.map(function(col, j) {
+									let classes = ClassNames({
+										'bg-black': (j + i) % 2 === 0,
+										'bg-white': (j + i) % 2 !== 0,
+										'selectable': !that.gameOver && that.chess.isMovable(j, i)
+									})
 									return (
-										<td key={j} ng-click="selectPiece($index, $parent.$index)"
-												className={(j + i) % 2 === 0 ? 'bg-black' : 'bg-white'}>
+										<td key={j} onClick={that.selectPiece.bind(that, j, i)}
+												className={classes}>
 											<img className="piece" src={Piece.getCssName(col) + '.png'}/>
 										</td>
 									)

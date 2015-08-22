@@ -170,7 +170,7 @@ class Chess {
 	}
 		
 	setSelected(x, y) {
-		this.selected = PositionService.createPosition(x, y)
+		this.selected = new Position(x, y)
 	}
 }
 
