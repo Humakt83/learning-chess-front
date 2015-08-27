@@ -7,6 +7,7 @@ import Chess from './chess'
 import Piece from './pieces'
 import Position from './position'
 import SettingsComponent from './settingscomponent'
+import $ from 'jquery'
 
 class ChessComponent extends React.Component {
 	
@@ -14,6 +15,8 @@ class ChessComponent extends React.Component {
 		super(props)
 		this.chess = new Chess()
 		this.gameOver = false
+		this.aiBlack = Settings.isBlackComputer()
+		this.aiWhite = Settings.isWhiteComputer()
 	}
 		
 	selectPiece(x, y) {
@@ -23,26 +26,44 @@ class ChessComponent extends React.Component {
 			} else if (this.chess.isMovable(x, y)) {
 				this.chess.movePiece(this.chess.selected, new Position(x, y))
 				this.checkState()				
-				/*if (!$scope.gameOver && ($scope.aiBlack || $scope.aiWhite)) {
-					$scope.aiTurn()
-				}*/
+				if (!this.gameOver && (this.aiBlack || this.aiWhite)) {
+					this.aiTurn()
+				}
 			}
 			this.setState({})
 		}
 	}
 		
-	/*$scope.aiTurn = function() {
-		$timeout(function() {
-			if ($scope.chessBoard.turnOfWhite) $scope.aiWhite.playTurn($scope.chessBoard)
-			else $scope.aiBlack.playTurn($scope.chessBoard)
-			$scope.checkState()
-			return !$scope.gameOver && (($scope.chessBoard.turnOfWhite && $scope.aiWhite) || (!$scope.chessBoard.turnOfWhite && $scope.aiBlack))
-		}, 300).then(function(continueGame) {
-			if (continueGame) {
-				$scope.aiTurn()
+	aiTurn() {
+		let that = this
+		window.setTimeout(function() {						
+			that.playAITurn()
+		}, 500)
+	}
+	
+	playAITurn() {
+		let that = this
+		let board = {board: this.chess.board, turnOfWhite: this.chess.turnOfWhite, castlingState: {blockers:[]}}
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8080/aimove",
+			data: JSON.stringify(board),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function(data){
+				that.chess.makeAIMove(data)
+				that.checkState()
+				that.setState({})
+				if (!that.gameOver && ((that.chess.turnOfWhite && that.aiWhite) || (!that.chess.turnOfWhite && that.aiBlack))) {				
+					that.aiTurn()
+				}
+			},
+			failure: function(errMsg) {
+				alert(errMsg);
+				that.chess.turnOfWhite = !that.chess.turnOfWhite
 			}
 		})
-	}*/
+	}
 	
 	checkState() {
 		if (this.chess.isGameOver()) this.gameIsOver()
@@ -56,22 +77,11 @@ class ChessComponent extends React.Component {
 			this.chessOverText = 'Checkmate.'
 		}
 	}
-	
-	/*$scope.aiOnBlack = Settings.isBlackComputer()
-	$scope.aiOnWhite = Settings.isWhiteComputer()
-	$scope.chessBoard = Chess.createBoard()
-	if ($scope.aiOnBlack) $scope.aiBlack = ChessAI.createAI(true, Settings.getDifficultyBlack(), Settings.getPersonalityBlack())
-	if ($scope.aiOnWhite) $scope.aiWhite = ChessAI.createAI(false, Settings.getDifficultyWhite(), Settings.getPersonalityWhite())
 		
-	$scope.checkState()
-	
-	if ($scope.aiWhite) {
-		$scope.aiTurn()
-	}*/
-	
 	restart() {
 		this.chess = new Chess()
 		this.gameOver = false
+		this.started = false
 		this.setState({})
 	}
 	
@@ -81,6 +91,10 @@ class ChessComponent extends React.Component {
 	}
 	
 	render() {
+		if (this.aiWhite && !this.started) {
+			this.started = true
+			this.aiTurn()
+		}
 		let that = this
 		let displayEnd = this.gameOver ? 'block' : 'none'
 		return (

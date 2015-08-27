@@ -65,6 +65,20 @@ class Chess {
 		this.selected = undefined
 		if (!doNotSetMoves) this.setAllowedMoves()				
 	}
+
+	makeAIMove(board) {
+		let previousBoard = this.madeMoves.length > 0 ? _.last(this.madeMoves).boardAfterMove : null
+		this.madeMoves.push({
+			originalPosition: board.lastMove.original,
+			position: board.lastMove.position,
+			boardBeforeMove: previousBoard,
+			boardAfterMove: board.board
+		})
+		this.board = board.board
+		this.turnOfWhite = !this.turnOfWhite
+		this.selected = undefined
+		this.setAllowedMoves()
+	}
 		
 	getFutureMoves() {
 		var futureMoves = []
