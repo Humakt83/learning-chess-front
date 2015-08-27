@@ -72,7 +72,8 @@ class Chess {
 			originalPosition: board.lastMove.original,
 			position: board.lastMove.position,
 			boardBeforeMove: previousBoard,
-			boardAfterMove: board.board
+			boardAfterMove: board.board,
+			pawnDoubleForward: board.lastMove.pawnDoubleForward
 		})
 		this.board = board.board
 		this.turnOfWhite = !this.turnOfWhite
