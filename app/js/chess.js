@@ -77,6 +77,7 @@ class Chess {
 		this.board = board.board
 		this.turnOfWhite = !this.turnOfWhite
 		this.selected = undefined
+		this.castlingState = board.castlingState
 		this.setAllowedMoves()
 	}
 		
@@ -185,6 +186,10 @@ class Chess {
 		
 	setSelected(x, y) {
 		this.selected = new Position(x, y)
+	}
+	
+	getCastlingState() {
+		return this.castlingState ? this.castlingState : {blockers:[]}
 	}
 }
 

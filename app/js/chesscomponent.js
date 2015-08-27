@@ -43,7 +43,7 @@ class ChessComponent extends React.Component {
 	
 	playAITurn() {
 		let that = this
-		let board = {board: this.chess.board, turnOfWhite: this.chess.turnOfWhite, castlingState: {blockers:[]}}
+		let board = {board: this.chess.board, turnOfWhite: this.chess.turnOfWhite, castlingState: this.chess.getCastlingState()}
 		$.ajax({
 			type: "POST",
 			url: "http://localhost:8080/aimove",
