@@ -27,6 +27,7 @@ class ChessComponent extends React.Component {
 				this.chess.movePiece(this.chess.selected, new Position(x, y))
 				this.checkState()				
 				if (!this.gameOver && (this.aiBlack || this.aiWhite)) {
+					this.chess.aiTurn = true
 					this.aiTurn()
 				}
 			}
@@ -53,9 +54,12 @@ class ChessComponent extends React.Component {
 			success: function(data){
 				that.chess.makeAIMove(data)
 				that.checkState()
-				that.setState({})
-				if (!that.gameOver && ((that.chess.turnOfWhite && that.aiWhite) || (!that.chess.turnOfWhite && that.aiBlack))) {				
+				if (!that.gameOver && ((that.chess.turnOfWhite && that.aiWhite) || (!that.chess.turnOfWhite && that.aiBlack))) {	
+					that.setState({})				
 					that.aiTurn()
+				} else {
+					that.chess.aiTurn = false
+					that.setState({})
 				}
 			},
 			failure: function(errMsg) {
@@ -93,6 +97,7 @@ class ChessComponent extends React.Component {
 	render() {
 		if (this.aiWhite && !this.started) {
 			this.started = true
+			this.chess.aiTurn = true
 			this.aiTurn()
 		}
 		let that = this
@@ -107,7 +112,7 @@ class ChessComponent extends React.Component {
 									let classes = ClassNames({
 										'bg-black': (j + i) % 2 === 0,
 										'bg-white': (j + i) % 2 !== 0,
-										'selectable': !that.gameOver && that.chess.isMovable(j, i)
+										'selectable': !that.gameOver && !that.chess.aiTurn && that.chess.isMovable(j, i)
 									})
 									return (
 										<td key={j} onClick={that.selectPiece.bind(that, j, i)}
