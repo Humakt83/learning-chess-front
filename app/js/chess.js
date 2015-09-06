@@ -180,9 +180,16 @@ class Chess {
 		this.turnOfWhite = !this.turnOfWhite
 		return futureMoves.length > 0 && this.allowedMoves.length <= 0
 	}
+	
+	isInsufficientMaterial() {
+		function hasEnoughMaterial(pieces) {
+			return Math.abs(_.sum(pieces)) >= 10 || _.find(pieces, function(piece) { return piece === 1 || piece === -1 })
+		}
+		return !(hasEnoughMaterial(this.getWhitePieces()) || hasEnoughMaterial(this.getBlackPieces()))
+	}
 		
 	isGameOver() {
-		return this.allowedMoves.length <= 0
+		return this.allowedMoves.length <= 0 || this.isInsufficientMaterial()
 	}
 		
 	setSelected(x, y) {

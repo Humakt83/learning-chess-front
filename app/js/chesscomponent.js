@@ -77,8 +77,10 @@ class ChessComponent extends React.Component {
 		this.gameOver = true
 		if (this.chess.isStaleMate()) {
 			this.chessOverText = 'Stalemate'
-		} else {
-			this.chessOverText = 'Checkmate.'
+		} else if (this.chess.isCheckMate()) {
+			this.chessOverText = 'Checkmate'
+		} else if (this.chess.isInsufficientMaterial()) {
+			this.chessOverText = 'Insufficient material'
 		}
 	}
 		
