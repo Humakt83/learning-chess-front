@@ -187,9 +187,14 @@ class Chess {
 		}
 		return !(hasEnoughMaterial(this.getWhitePieces()) || hasEnoughMaterial(this.getBlackPieces()))
 	}
+	
+	isThreefoldRepetition() {
+		if (this.madeMoves.length < 9) return false
+		return _.chain(this.madeMoves).takeRight(10).map(function(madeMove) { return madeMove.boardAfterMove}).countBy(_.identity).includes(3).value()
+	}
 		
 	isGameOver() {
-		return this.allowedMoves.length <= 0 || this.isInsufficientMaterial()
+		return this.allowedMoves.length <= 0 || this.isInsufficientMaterial() || this.isThreefoldRepetition()
 	}
 		
 	setSelected(x, y) {
