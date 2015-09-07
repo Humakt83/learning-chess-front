@@ -83,6 +83,8 @@ class ChessComponent extends React.Component {
 			this.chessOverText = 'Insufficient material'
 		} else if (this.chess.isThreefoldRepetition()) {
 			this.chessOverText = 'Threefold repetition'
+		} else if (this.chess.isOverMoveLimit()) {
+			this.chessOverText = 'Move limit reached'
 		} else {
 			this.chessOverText = 'Game over for unknown reason?'
 		}

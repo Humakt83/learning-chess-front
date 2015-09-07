@@ -197,9 +197,13 @@ class Chess {
 			.includes(3)
 			.value()
 	}
+	
+	isOverMoveLimit() {
+		return this.madeMoves.length >= 300
+	}
 		
 	isGameOver() {
-		return this.allowedMoves.length <= 0 || this.isInsufficientMaterial() || this.isThreefoldRepetition()
+		return this.allowedMoves.length <= 0 || this.isInsufficientMaterial() || this.isThreefoldRepetition() || this.isOverMoveLimit()
 	}
 		
 	setSelected(x, y) {
