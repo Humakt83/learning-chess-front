@@ -190,7 +190,12 @@ class Chess {
 	
 	isThreefoldRepetition() {
 		if (this.madeMoves.length < 9) return false
-		return _.chain(this.madeMoves).takeRight(10).map(function(madeMove) { return madeMove.boardAfterMove}).countBy(_.identity).includes(3).value()
+		return _.chain(this.madeMoves)
+			.takeRight(10)
+			.map(function(madeMove) { return madeMove.boardAfterMove})
+			.countBy(_.identity)
+			.includes(3)
+			.value()
 	}
 		
 	isGameOver() {

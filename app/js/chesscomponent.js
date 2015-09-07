@@ -39,7 +39,7 @@ class ChessComponent extends React.Component {
 		let that = this
 		window.setTimeout(function() {						
 			that.playAITurn()
-		}, 500)
+		}, 300)
 	}
 	
 	playAITurn() {
@@ -63,8 +63,8 @@ class ChessComponent extends React.Component {
 				}
 			},
 			failure: function(errMsg) {
-				alert(errMsg);
-				that.chess.turnOfWhite = !that.chess.turnOfWhite
+				that.checkState()
+				that.setState({})
 			}
 		})
 	}
