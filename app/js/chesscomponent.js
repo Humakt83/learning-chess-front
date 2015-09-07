@@ -78,6 +78,7 @@ class ChessComponent extends React.Component {
 		if (this.chess.isStaleMate()) {
 			this.chessOverText = 'Stalemate'
 		} else if (this.chess.isCheckMate()) {
+			this.postWin()
 			this.chessOverText = 'Checkmate'
 		} else if (this.chess.isInsufficientMaterial()) {
 			this.chessOverText = 'Insufficient material'
@@ -88,6 +89,23 @@ class ChessComponent extends React.Component {
 		} else {
 			this.chessOverText = 'Game over for unknown reason?'
 		}
+	}
+	
+	postWin() {
+		let gameResult = this.chess.getGameResultForCheckMate()
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8080/gameover",
+			data: JSON.stringify(gameResult),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function(data){
+				console.log("Submitted victory")
+			},
+			failure: function(errMsg) {
+				alert("Failed to submit victory")
+			}
+		})
 	}
 		
 	restart() {

@@ -213,6 +213,12 @@ class Chess {
 	getCastlingState() {
 		return this.castlingState ? this.castlingState : {blockers:[]}
 	}
+	
+	getGameResultForCheckMate() {
+		let winnerIsWhite = !this.turnOfWhite
+		let boardStates = _.map(this.madeMoves, function(madeMove) { return madeMove.boardAfterMove })
+		return { 'winnerIsWhite': winnerIsWhite, 'boardStates' : boardStates }
+	}
 }
 
 module.exports = Chess
