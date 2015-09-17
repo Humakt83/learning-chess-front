@@ -59,7 +59,8 @@ class ChessComponent extends React.Component {
 					that.aiTurn()
 				} else {
 					that.chess.aiTurn = false
-					that.setState({})
+					if (that.gameOver && that.autoplay) that.restart()
+					else that.setState({})
 				}
 			},
 			failure: function(errMsg) {
@@ -89,7 +90,6 @@ class ChessComponent extends React.Component {
 		} else {
 			this.chessOverText = 'Game over for unknown reason?'
 		}
-		if (this.autoplay) this.restart()
 	}
 	
 	postWin() {
@@ -133,6 +133,10 @@ class ChessComponent extends React.Component {
 		}
 		let that = this
 		let displayEnd = this.gameOver ? 'block' : 'none'
+		let autoplay
+		if (this.aiWhite && this.aiBlack) {
+			autoplay = <div><label htmlFor="autoplay-toggle">Autoplay</label><input id="autoplay-toggle" type="checkbox" checked={this.autoplay} onChange={this.toggleAutoplay.bind(this)} /></div>
+		}		
 		return (
 			<div className="container">
 				<table className="chess">
@@ -167,10 +171,7 @@ class ChessComponent extends React.Component {
 					</div>
 				</div>
 				
-				<div style={{'display: none'}}>
-					<label htmlFor="autoplay-toggle">Autoplay</label>
-					<input id="autoplay-toggle" type="checkbox" checked={this.autoplay} onChange={this.toggleAutoplay.bind(this)} />
-				</div>
+				{autoplay}
 			</div>
 		)
 	}
