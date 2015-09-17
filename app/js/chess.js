@@ -63,7 +63,7 @@ class Chess {
 		move.effect()
 		this.turnOfWhite = !this.turnOfWhite
 		this.selected = undefined
-		if (!doNotSetMoves) this.setAllowedMoves()				
+		if (!doNotSetMoves) this.setAllowedMoves()
 	}
 
 	makeAIMove(board) {
@@ -73,12 +73,12 @@ class Chess {
 			position: board.lastMove.position,
 			boardBeforeMove: previousBoard,
 			boardAfterMove: board.board,
-			pawnDoubleForward: board.lastMove.pawnDoubleForward
+			pawnDoubleForward: board.lastMove.pawnDoubleForward,
+			castlingState: board.castlingState
 		})
 		this.board = board.board
 		this.turnOfWhite = !this.turnOfWhite
 		this.selected = undefined
-		this.castlingState = board.castlingState
 		this.setAllowedMoves()
 	}
 		
@@ -104,9 +104,9 @@ class Chess {
 					this.allowedMoves.push(ChessPiece.getMoves(piece, new Position(x, y), this))
 				}
 			}
-		}
+		}		
 		this.selected = undefined
-		this.allowedMoves = _.compact(_.flatten(this.allowedMoves))
+		this.allowedMoves = _.compact(_.flatten(this.allowedMoves))		
 	}
 		
 	boardAfterMove(from, to) {
@@ -118,10 +118,8 @@ class Chess {
 		return copyBoard
 	}
 		
-	moveMadeOfType(moveType) {
-		return _.find(this.madeMoves, function(move) {
-			return _.has(move, moveType)
-		})
+	castlingMoveMadeOfType(moveType) {
+		return this.madeMoves.length > 0 && _.contains(_.last(this.madeMoves).castlingState.blockers, moveType)
 	}
 			
 	isPositionInsideBoard(position) {
@@ -211,7 +209,12 @@ class Chess {
 	}
 	
 	getCastlingState() {
-		return this.castlingState ? this.castlingState : {blockers:[]}
+		if (this.madeMoves.length > 0) {
+			let previousMove = _.last(this.madeMoves)
+			if (!previousMove.castlingState) previousMove.castlingState = {blockers:[]}
+			return previousMove.castlingState
+		}
+		return {blockers:[]}
 	}
 	
 	getGameResultForCheckMate() {

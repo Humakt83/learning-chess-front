@@ -10,6 +10,7 @@ function Move(piece, oldPosition, newPosition, chess, effect) {
 	this.boardBeforeMove = chess.board
 	this.boardAfterMove = chess.boardAfterMove(oldPosition, newPosition)
 	this.effect = effect ? effect : function(){}
+	this.castlingState = {blockers: chess.getCastlingState().blockers.slice()}
 }
 
 var filterOutOfBoardMoves = function(moves, chess) {
@@ -130,11 +131,10 @@ var getKnightMoves = function(position, piece, chess) {
 
 var getRookMoves = function(position, piece, chess) {
 	return _.chain(horizontalAndVerticalMoves(chess, position, piece)).each(function(move) {
-		if (piece > 0)
-			if (position.x === 0) move.leftWhiteRookMoved = true
-			else move.rightWhiteRookMoved = true
-		else if (position.x === 0) move.leftBlackRookMoved = true
-		else move.rightBlackRookMoved = true
+		let moveType
+		if (piece > 0) moveType = position.x === 0 ? 'WHITE_LEFT_ROOK_MOVED' : 'WHITE_RIGHT_ROOK_MOVED'
+		else moveType = position.x === 0 ? 'BLACK_LEFT_ROOK_MOVED' : 'BLACK_RIGHT_ROOK_MOVED'
+		move.castlingState.blockers.push(moveType)
 	}).value()
 }
 
@@ -145,14 +145,14 @@ var getQueenMoves = function(position, piece, chess) {
 
 var getKingMoves = function(position, piece, chess, whitePiece) {
 	var toweringMoves = []
-	if (!chess.moveMadeOfType(whitePiece ? 'whiteKingMoved' : 'blackKingMoved')) {
+	if (!chess.castlingMoveMadeOfType(whitePiece ? 'WHITE_KING_MOVED' : 'BLACK_KING_MOVED')) {
 		var rookLeftPosition = position.newPosition(-4,0)			
 		var rookRightPosition = position.newPosition(3,0)
 		var rookLeft = chess.getSlot(rookLeftPosition)
 		var rookRight = chess.getSlot(rookRightPosition)
 		var rook = whitePiece? 4: -4
-		var leftRookMoved = chess.moveMadeOfType(whitePiece ? 'leftWhiteRookMoved' : 'leftBlackRookMoved')
-		var rightRookMoved = chess.moveMadeOfType(whitePiece ? 'rightWhiteRookMoved' : 'rightBlackRookMoved')
+		var leftRookMoved = chess.castlingMoveMadeOfType(whitePiece ? 'WHITE_LEFT_ROOK_MOVED' : 'BLACK_LEFT_ROOK_MOVED')
+		var rightRookMoved = chess.castlingMoveMadeOfType(whitePiece ? 'WHITE_RIGHT_ROOK_MOVED' : 'BLACK_RIGHT_ROOK_MOVED')
 		if (rookLeft === rook && !leftRookMoved && chess.getSlot(position.newPosition(-1,0)) === 0 && chess.getSlot(position.newPosition(-2,0)) === 0 && chess.getSlot(position.newPosition(-3,0)) === 0) {
 			toweringMoves.push(new Move(piece, position, position.newPosition(-2,0), chess, function() {
 				chess.board[rookLeftPosition.y][rookLeftPosition.x] = 0
@@ -172,12 +172,7 @@ var getKingMoves = function(position, piece, chess, whitePiece) {
 		new Move(piece, position, position.newPosition(1,0), chess), new Move(piece, position, position.newPosition(-1,0), chess),
 		new Move(piece, position, position.newPosition(1,1), chess), new Move(piece, position, position.newPosition(-1,-1), chess), 
 		new Move(piece, position, position.newPosition(1,-1), chess), new Move(piece, position, position.newPosition(-1,1), chess)])
-	_.each(moves, function(move) {
-		if (whitePiece)
-			move.whiteKingMoved = true
-		else
-			move.blackKingMoved = true
-	})
+	_.each(moves, function(move) { move.castlingState.blockers.push(whitePiece ? 'WHITE_KING_MOVED' : 'BLACK_KING_MOVED')})
 	return moves
 }
 

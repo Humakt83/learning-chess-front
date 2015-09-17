@@ -89,6 +89,7 @@ class ChessComponent extends React.Component {
 		} else {
 			this.chessOverText = 'Game over for unknown reason?'
 		}
+		if (this.autoplay) this.restart()
 	}
 	
 	postWin() {
@@ -118,6 +119,10 @@ class ChessComponent extends React.Component {
 	toSettings() {
 		//since we are not implementing routing for simple two view application, might as well just reload the window"
 		window.location.reload()
+	}
+	
+	toggleAutoplay() {
+		this.autoplay = !this.autoplay
 	}
 	
 	render() {
@@ -160,6 +165,11 @@ class ChessComponent extends React.Component {
 							<img className="settings-image" src="settings.png" onClick={this.toSettings.bind(this)}/>
 						</div>
 					</div>
+				</div>
+				
+				<div style={{'display: none'}}>
+					<label htmlFor="autoplay-toggle">Autoplay</label>
+					<input id="autoplay-toggle" type="checkbox" checked={this.autoplay} onChange={this.toggleAutoplay.bind(this)} />
 				</div>
 			</div>
 		)
