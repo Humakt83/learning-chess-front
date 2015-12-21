@@ -28,7 +28,7 @@ gulp.task('copyFiles', function() {
 	gulp.src([
         './app/index.html',
         './app/style.css',
-		'./app/ngchess.ico',
+		'./app/learningchess.ico',
         './app/img/**/*',
 		'./app/partials/**/*'        
     ])
