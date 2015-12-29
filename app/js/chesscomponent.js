@@ -15,8 +15,8 @@ class ChessComponent extends React.Component {
 		super(props)
 		this.chess = new Chess()
 		this.gameOver = false
-		this.aiBlack = Settings.isBlackComputer()
-		this.aiWhite = Settings.isWhiteComputer()
+		this.blackType = Settings.getBlackType()
+		this.whiteType = Settings.getWhiteType()
 	}
 		
 	selectPiece(x, y) {
@@ -26,13 +26,17 @@ class ChessComponent extends React.Component {
 			} else if (this.chess.isMovable(x, y)) {
 				this.chess.movePiece(this.chess.selected, new Position(x, y))
 				this.checkState()				
-				if (!this.gameOver && (this.aiBlack || this.aiWhite)) {
+				if (!this.gameOver && (this.unHuman(this.blackType) || this.unHuman(this.whiteType))) {
 					this.chess.aiTurn = true
 					this.aiTurn()
 				}
 			}
 			this.setState({})
 		}
+	}
+
+	unHuman(player) {
+		return player !== Settings.getPlayerTypes().HUMAN
 	}
 		
 	aiTurn() {
@@ -45,16 +49,18 @@ class ChessComponent extends React.Component {
 	playAITurn() {
 		let that = this
 		let board = {board: this.chess.board, turnOfWhite: this.chess.turnOfWhite, castlingState: this.chess.getCastlingState()}
+		let port = (this.chess.turnOfWhite && this.whiteType == Settings.getPlayerTypes().SPARRING_AI)
+					|| (!this.chess.turnOfWhite && this.blackType == Settings.getPlayerTypes().SPARRING_AI) ? '8089' : '8080'
 		$.ajax({
 			type: "POST",
-			url: "http://localhost:8080/aimove",
+			url: "http://localhost:" + port + "/aimove",
 			data: JSON.stringify(board),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			success: function(data){
 				that.chess.makeAIMove(data)
 				that.checkState()
-				if (!that.gameOver && ((that.chess.turnOfWhite && that.aiWhite) || (!that.chess.turnOfWhite && that.aiBlack))) {	
+				if (!that.gameOver && ((that.chess.turnOfWhite && that.unHuman(that.whiteType)) || (!that.chess.turnOfWhite && that.unHuman(that.blackType)))) {	
 					that.setState({})				
 					that.aiTurn()
 				} else {
@@ -126,7 +132,7 @@ class ChessComponent extends React.Component {
 	}
 	
 	render() {
-		if (this.aiWhite && !this.started) {
+		if (this.unHuman(this.whiteType) && !this.started) {
 			this.started = true
 			this.chess.aiTurn = true
 			this.aiTurn()
@@ -134,7 +140,7 @@ class ChessComponent extends React.Component {
 		let that = this
 		let displayEnd = this.gameOver ? 'block' : 'none'
 		let autoplay
-		if (this.aiWhite && this.aiBlack) {
+		if (this.unHuman(this.whiteType) && this.unHuman(this.blackType)) {
 			autoplay = <div><label htmlFor="autoplay-toggle">Autoplay</label><input id="autoplay-toggle" type="checkbox" checked={this.autoplay} onChange={this.toggleAutoplay.bind(this)} /></div>
 		}		
 		return (

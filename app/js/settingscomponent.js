@@ -16,16 +16,16 @@ class SettingsComponent extends React.Component {
 	
 	_togglePlayer(white) {
 		if (white) {
-			Settings.setWhiteIsComputer(!Settings.isWhiteComputer())
+			Settings.toggleWhite()
 		} else {
-			Settings.setBlackIsComputer(!Settings.isBlackComputer())
+			Settings.toggleBlack()
 		}
 		this.setState({})
 	}
 	
 	render() {
-		let blackPlayer = Settings.isBlackComputer() ? 'computer.png' : 'human.png'
-		let whitePlayer = Settings.isWhiteComputer() ? 'computer.png' : 'human.png'
+		let blackPlayer = Settings.getBlackType()
+		let whitePlayer = Settings.getWhiteType()
 		if (this.state && this.state.started) return <ChessComponent />
 		return (
 			<div>
