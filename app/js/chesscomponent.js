@@ -3,9 +3,7 @@
 import React from 'react'
 import ClassNames from 'classnames'
 import Settings from './settings'
-import Chess from './chess'
-import Piece from './pieces'
-import Position from './position'
+import Chess from 'jschessrulz'
 import SettingsComponent from './settingscomponent'
 import $ from 'jquery'
 
@@ -13,7 +11,7 @@ class ChessComponent extends React.Component {
 	
 	constructor(props) {
 		super(props)
-		this.chess = new Chess()
+		this.chess = new Chess.Chess()
 		this.gameOver = false
 		this.blackType = Settings.getBlackType()
 		this.whiteType = Settings.getWhiteType()
@@ -24,7 +22,7 @@ class ChessComponent extends React.Component {
 			if (!this.chess.selected || this.chess.canSetSelected(x, y)) {
 				this.chess.setSelected(x, y)
 			} else if (this.chess.isMovable(x, y)) {
-				this.chess.movePiece(this.chess.selected, new Position(x, y))
+				this.chess.movePiece(this.chess.selected, new Chess.Position(x, y))
 				this.checkState()				
 				if (!this.gameOver && (this.unHuman(this.blackType) || this.unHuman(this.whiteType))) {
 					this.chess.aiTurn = true
@@ -116,7 +114,7 @@ class ChessComponent extends React.Component {
 	}
 		
 	restart() {
-		this.chess = new Chess()
+		this.chess = new Chess.Chess()
 		this.gameOver = false
 		this.started = false
 		this.setState({})
@@ -158,7 +156,7 @@ class ChessComponent extends React.Component {
 									return (
 										<td key={j} onClick={that.selectPiece.bind(that, j, i)}
 												className={classes}>
-											<img className="piece" src={Piece.getCssName(col) + '.png'}/>
+											<img className="piece" src={Chess.Piece.getCssName(col) + '.png'}/>
 										</td>
 									)
 								})}
