@@ -3,6 +3,7 @@ Frontend side of the learning chess application
 
 ##Requirements
 [Node.js](https://nodejs.org/en/)
+
 [Gulp](http://gulpjs.com/), to install it globally use `npm install -g gulp`
 
 ##Installing and running
