@@ -4,6 +4,7 @@
   "description": "Learning chess front",
   "main": "app/index.html",
   "scripts": {
+    "start": "gulp serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -11,6 +12,9 @@
     "learning",
     "reactjs"
   ],
+  "engines": {
+    "node": "8.12.0"
+  },
   "author": "Risto <Humakt83> (http://ukkosnetti.fi)",
   "license": "GPLv3",
   "dependencies": {
