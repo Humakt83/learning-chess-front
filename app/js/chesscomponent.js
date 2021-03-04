@@ -56,13 +56,14 @@ class ChessComponent extends React.Component {
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
 			success: function(data){
+				that.chess.aiTurn = false
 				that.chess.makeAIMove(data)
 				that.checkState()
 				if (!that.gameOver && ((that.chess.turnOfWhite && that.unHuman(that.whiteType)) || (!that.chess.turnOfWhite && that.unHuman(that.blackType)))) {	
+					that.chess.aiTurn = true
 					that.setState({})				
 					that.aiTurn()
 				} else {
-					that.chess.aiTurn = false
 					if (that.gameOver && that.autoplay) that.restart()
 					else that.setState({})
 				}
